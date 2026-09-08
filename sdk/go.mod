@@ -1,15 +1,15 @@
 module github.com/hashicorp/vault/sdk
 
-go 1.13
+go 1.25.0
 
 require (
 	github.com/armon/go-metrics v0.3.0
 	github.com/armon/go-radix v0.0.0-20180808171621-7fddfc383310
-	github.com/aws/aws-sdk-go v1.25.37
+	github.com/aws/aws-sdk-go v1.34.0
 	github.com/fatih/structs v1.1.0
 	github.com/go-ldap/ldap/v3 v3.1.3
 	github.com/go-test/deep v1.0.2-0.20181118220953-042da051cf31
-	github.com/golang/protobuf v1.3.2
+	github.com/golang/protobuf v1.5.4
 	github.com/golang/snappy v0.0.1
 	github.com/hashicorp/errwrap v1.0.0
 	github.com/hashicorp/go-hclog v0.12.0
@@ -27,7 +27,23 @@ require (
 	github.com/mitchellh/mapstructure v1.1.2
 	github.com/pierrec/lz4 v2.0.5+incompatible
 	github.com/ryanuber/go-glob v1.0.0
-	golang.org/x/crypto v0.0.0-20190418165655-df01cb2cc480
-	golang.org/x/sys v0.0.0-20191008105621-543471e840be
-	google.golang.org/grpc v1.22.0
+	golang.org/x/crypto v0.55.0
+	golang.org/x/sys v0.47.0
+	google.golang.org/grpc v1.83.2
+)
+
+require (
+	github.com/fatih/color v1.7.0 // indirect
+	github.com/go-asn1-ber/asn1-ber v1.3.1 // indirect
+	github.com/hashicorp/yamux v0.0.0-20180604194846-3520598351bb // indirect
+	github.com/jmespath/go-jmespath v0.3.0 // indirect
+	github.com/mattn/go-colorable v0.1.4 // indirect
+	github.com/mattn/go-isatty v0.0.10 // indirect
+	github.com/mitchellh/reflectwalk v1.0.0 // indirect
+	github.com/oklog/run v1.0.0 // indirect
+	golang.org/x/net v0.58.0 // indirect
+	golang.org/x/term v0.45.0 // indirect
+	golang.org/x/text v0.41.0 // indirect
+	google.golang.org/genproto v0.0.0-20180817151627-c66870c02cf8 // indirect
+	google.golang.org/protobuf v1.36.11 // indirect
 )
