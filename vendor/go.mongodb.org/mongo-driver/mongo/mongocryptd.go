@@ -19,7 +19,7 @@ import (
 )
 
 const (
-	defaultServerSelectionTimeout = 1 * time.Second
+	defaultServerSelectionTimeout = 10 * time.Second
 	defaultURI                    = "mongodb://localhost:27020"
 	defaultPath                   = "mongocryptd"
 	serverSelectionTimeoutStr     = "server selection error"
@@ -28,22 +28,40 @@ const (
 var defaultTimeoutArgs = []string{"--idleShutdownTimeoutSecs=60"}
 var databaseOpts = options.Database().SetReadConcern(readconcern.New()).SetReadPreference(readpref.Primary())
 
-type mcryptClient struct {
+type mongocryptdClient struct {
 	bypassSpawn bool
 	client      *Client
 	path        string
 	spawnArgs   []string
 }
 
-func newMcryptClient(opts map[string]interface{}) (*mcryptClient, error) {
+// newMongocryptdClient creates a client to mongocryptd.
+// newMongocryptdClient is expected to not be called if the crypt shared library is available.
+// The crypt shared library replaces all mongocryptd functionality.
+func newMongocryptdClient(opts *options.AutoEncryptionOptions) (*mongocryptdClient, error) {
 	// create mcryptClient instance and spawn process if necessary
-	mc := &mcryptClient{}
-	if bypass, ok := opts["mongocryptdBypassSpawn"]; ok {
-		mc.bypassSpawn = bypass.(bool)
+	var bypassSpawn bool
+	var bypassAutoEncryption bool
+
+	if bypass, ok := opts.ExtraOptions["mongocryptdBypassSpawn"]; ok {
+		bypassSpawn = bypass.(bool)
+	}
+	if opts.BypassAutoEncryption != nil {
+		bypassAutoEncryption = *opts.BypassAutoEncryption
+	}
+
+	bypassQueryAnalysis := opts.BypassQueryAnalysis != nil && *opts.BypassQueryAnalysis
+
+	mc := &mongocryptdClient{
+		// mongocryptd should not be spawned if any of these conditions are true:
+		// - mongocryptdBypassSpawn is passed
+		// - bypassAutoEncryption is true because mongocryptd is not used during decryption
+		// - bypassQueryAnalysis is true because mongocryptd is not used during decryption
+		bypassSpawn: bypassSpawn || bypassAutoEncryption || bypassQueryAnalysis,
 	}
 
 	if !mc.bypassSpawn {
-		mc.path, mc.spawnArgs = createSpawnArgs(opts)
+		mc.path, mc.spawnArgs = createSpawnArgs(opts.ExtraOptions)
 		if err := mc.spawnProcess(); err != nil {
 			return nil, err
 		}
@@ -51,7 +69,7 @@ func newMcryptClient(opts map[string]interface{}) (*mcryptClient, error) {
 
 	// get connection string
 	uri := defaultURI
-	if u, ok := opts["mongocryptdURI"]; ok {
+	if u, ok := opts.ExtraOptions["mongocryptdURI"]; ok {
 		uri = u.(string)
 	}
 
@@ -66,10 +84,14 @@ func newMcryptClient(opts map[string]interface{}) (*mcryptClient, error) {
 }
 
 // markCommand executes the given command on mongocryptd.
-func (mc *mcryptClient) markCommand(ctx context.Context, dbName string, cmd bsoncore.Document) (bsoncore.Document, error) {
+func (mc *mongocryptdClient) markCommand(ctx context.Context, dbName string, cmd bsoncore.Document) (bsoncore.Document, error) {
+	// Remove the explicit session from the context if one is set.
+	// The explicit session will be from a different client.
+	// If an explicit session is set, it is applied after automatic encryption.
+	ctx = NewSessionContext(ctx, nil)
 	db := mc.client.Database(dbName, databaseOpts)
 
-	res, err := db.RunCommand(ctx, cmd).DecodeBytes()
+	res, err := db.RunCommand(ctx, cmd).Raw()
 	// propagate original result
 	if err == nil {
 		return bsoncore.Document(res), nil
@@ -83,7 +105,7 @@ func (mc *mcryptClient) markCommand(ctx context.Context, dbName string, cmd bson
 	if err = mc.spawnProcess(); err != nil {
 		return nil, err
 	}
-	res, err = db.RunCommand(ctx, cmd).DecodeBytes()
+	res, err = db.RunCommand(ctx, cmd).Raw()
 	if err != nil {
 		return nil, MongocryptdError{Wrapped: err}
 	}
@@ -91,16 +113,18 @@ func (mc *mcryptClient) markCommand(ctx context.Context, dbName string, cmd bson
 }
 
 // connect connects the underlying Client instance. This must be called before performing any mark operations.
-func (mc *mcryptClient) connect(ctx context.Context) error {
+func (mc *mongocryptdClient) connect(ctx context.Context) error {
 	return mc.client.Connect(ctx)
 }
 
 // disconnect disconnects the underlying Client instance. This should be called after all operations have completed.
-func (mc *mcryptClient) disconnect(ctx context.Context) error {
+func (mc *mongocryptdClient) disconnect(ctx context.Context) error {
 	return mc.client.Disconnect(ctx)
 }
 
-func (mc *mcryptClient) spawnProcess() error {
+func (mc *mongocryptdClient) spawnProcess() error {
+	// Ignore gosec warning about subprocess launched with externally-provided path variable.
+	/* #nosec G204 */
 	cmd := exec.Command(mc.path, mc.spawnArgs...)
 	cmd.Stdout = nil
 	cmd.Stderr = nil

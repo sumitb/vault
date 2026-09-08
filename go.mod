@@ -10,7 +10,6 @@ require (
 	cloud.google.com/go v0.39.0
 	github.com/Azure/azure-sdk-for-go v36.2.0+incompatible
 	github.com/Azure/go-autorest/autorest v0.9.2
-	github.com/DataDog/zstd v1.4.4 // indirect
 	github.com/NYTimes/gziphandler v1.1.1
 	github.com/SAP/go-hdb v0.14.1
 	github.com/StackExchange/wmi v0.0.0-20180116203802-5d049714c4a6 // indirect
@@ -22,7 +21,7 @@ require (
 	github.com/armon/go-proxyproto v0.0.0-20190211145416-68259f75880e
 	github.com/armon/go-radix v1.0.0
 	github.com/asaskevich/govalidator v0.0.0-20180720115003-f9ffefc3facf
-	github.com/aws/aws-sdk-go v1.25.41
+	github.com/aws/aws-sdk-go v1.34.0
 	github.com/bitly/go-hostpool v0.0.0-20171023180738-a3a6125de932 // indirect
 	github.com/bmizerany/assert v0.0.0-20160611221934-b7ed37b82869 // indirect
 	github.com/chrismalek/oktasdk-go v0.0.0-20181212195951-3430665dfaa0
@@ -34,14 +33,14 @@ require (
 	github.com/dsnet/compress v0.0.1 // indirect
 	github.com/duosecurity/duo_api_golang v0.0.0-20190308151101-6c680f768e74
 	github.com/elazarl/go-bindata-assetfs v1.0.0
-	github.com/fatih/color v1.7.0
+	github.com/fatih/color v1.16.0
 	github.com/fatih/structs v1.1.0
 	github.com/fullsailor/pkcs7 v0.0.0-20190404230743-d7302db945fa
 	github.com/ghodss/yaml v1.0.1-0.20190212211648-25d852aebe32
 	github.com/go-errors/errors v1.0.1
 	github.com/go-ldap/ldap/v3 v3.1.3
 	github.com/go-ole/go-ole v1.2.1 // indirect
-	github.com/go-sql-driver/mysql v1.4.1
+	github.com/go-sql-driver/mysql v1.5.0
 	github.com/go-test/deep v1.0.2
 	github.com/gocql/gocql v0.0.0-20190402132108-0e1d5de854df
 	github.com/gogo/protobuf v1.2.1
@@ -51,15 +50,15 @@ require (
 	github.com/hashicorp/consul-template v0.22.0
 	github.com/hashicorp/consul/api v1.2.1-0.20200128105449-6681be918a6e
 	github.com/hashicorp/errwrap v1.0.0
-	github.com/hashicorp/go-cleanhttp v0.5.1
+	github.com/hashicorp/go-cleanhttp v0.5.2
 	github.com/hashicorp/go-gcp-common v0.6.0
-	github.com/hashicorp/go-hclog v0.12.0
+	github.com/hashicorp/go-hclog v1.6.3
 	github.com/hashicorp/go-kms-wrapping v0.5.1
 	github.com/hashicorp/go-memdb v1.0.2
 	github.com/hashicorp/go-msgpack v0.5.5
 	github.com/hashicorp/go-multierror v1.0.0
 	github.com/hashicorp/go-raftchunking v0.6.3-0.20191002164813-7e9e8525653a
-	github.com/hashicorp/go-retryablehttp v0.6.2
+	github.com/hashicorp/go-retryablehttp v0.7.7
 	github.com/hashicorp/go-rootcerts v1.0.2
 	github.com/hashicorp/go-sockaddr v1.0.2
 	github.com/hashicorp/go-syslog v1.0.0
@@ -83,14 +82,14 @@ require (
 	github.com/hashicorp/vault-plugin-secrets-ad v0.6.4-beta1
 	github.com/hashicorp/vault-plugin-secrets-alicloud v0.5.4-beta1
 	github.com/hashicorp/vault-plugin-secrets-azure v0.5.5-beta1
-	github.com/hashicorp/vault-plugin-secrets-gcp v0.6.0-beta1
+	github.com/hashicorp/vault-plugin-secrets-gcp v0.6.2
 	github.com/hashicorp/vault-plugin-secrets-gcpkms v0.5.4-beta1
 	github.com/hashicorp/vault-plugin-secrets-kv v0.5.4-beta1
 	github.com/hashicorp/vault-plugin-secrets-mongodbatlas v0.1.0-beta1
 	github.com/hashicorp/vault-plugin-secrets-openldap v0.1.0-beta1
 	github.com/hashicorp/vault/api v1.0.5-0.20200215224050-f6547fa8e820
 	github.com/hashicorp/vault/sdk v0.1.14-0.20200220181328-627cbfe69505
-	github.com/influxdata/influxdb v0.0.0-20190411212539-d24b7ba8c4c4
+	github.com/influxdata/influxdb v1.7.6
 	github.com/jackc/fake v0.0.0-20150926172116-812a484cc733 // indirect
 	github.com/jackc/pgx v3.3.0+incompatible // indirect
 	github.com/jcmturner/gokrb5/v8 v8.0.0
@@ -101,7 +100,7 @@ require (
 	github.com/kr/pretty v0.1.0
 	github.com/kr/text v0.1.0
 	github.com/lib/pq v1.2.0
-	github.com/mattn/go-colorable v0.1.4
+	github.com/mattn/go-colorable v0.1.13
 	github.com/mholt/archiver v3.1.1+incompatible
 	github.com/michaelklishin/rabbit-hole v0.0.0-20191008194146-93d9988f0cd5
 	github.com/mitchellh/cli v1.0.0
@@ -117,7 +116,7 @@ require (
 	github.com/oracle/oci-go-sdk v12.5.0+incompatible
 	github.com/ory/dockertest v3.3.5+incompatible
 	github.com/patrickmn/go-cache v2.1.0+incompatible
-	github.com/pkg/errors v0.8.1
+	github.com/pkg/errors v0.9.1
 	github.com/posener/complete v1.2.1
 	github.com/pquerna/otp v1.2.1-0.20191009055518-468c2dd2b58d
 	github.com/prometheus/client_golang v1.4.0
@@ -128,17 +127,14 @@ require (
 	github.com/shirou/gopsutil v2.19.9+incompatible
 	github.com/shirou/w32 v0.0.0-20160930032740-bb4de0191aa4 // indirect
 	github.com/shopspring/decimal v0.0.0-20180709203117-cd690d0c9e24 // indirect
-	github.com/stretchr/testify v1.4.0
-	github.com/tidwall/pretty v1.0.0 // indirect
-	github.com/xdg/scram v0.0.0-20180814205039-7eeb5667e42c // indirect
-	github.com/xdg/stringprep v1.0.0 // indirect
+	github.com/stretchr/testify v1.7.2
 	github.com/xi2/xz v0.0.0-20171230120015-48954b6210f8 // indirect
 	go.etcd.io/bbolt v1.3.3
 	go.etcd.io/etcd v0.5.0-alpha.5.0.20191023171146-3cf2f69b5738
-	go.mongodb.org/mongo-driver v1.2.1
+	go.mongodb.org/mongo-driver v1.17.7
 	go.uber.org/atomic v1.4.0
-	golang.org/x/crypto v0.0.0-20200117160349-530e935923ad
-	golang.org/x/net v0.0.0-20200114155413-6afb5195e5aa
+	golang.org/x/crypto v0.26.0
+	golang.org/x/net v0.25.0
 	golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45
 	google.golang.org/api v0.14.0
 	google.golang.org/grpc v1.23.1
